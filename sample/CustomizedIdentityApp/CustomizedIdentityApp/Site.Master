@@ -1,0 +1,42 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="CustomizedIdentityApp.Site" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>カスタマイズしたASP.NET Identity検証アプリケーション</title>
+  <style type="text/css">
+    form div label {
+      display: inline-block;
+      width: 120px;
+      text-align: center;
+    }
+  </style>
+  <asp:ContentPlaceHolder ID="head" runat="server">
+  </asp:ContentPlaceHolder>
+</head>
+<body>
+  <form id="form1" runat="server">
+    <div>
+      <asp:LoginView ID="LoginView1" runat="server">
+        <LoggedInTemplate>
+          こんにちは、
+        <asp:LoginName ID="LoginName1" runat="server" />
+          さん
+        </LoggedInTemplate>
+      </asp:LoginView>
+    </div>
+    <div>
+      <div style="width: 100%; text-align: right;">
+        <asp:LoginStatus ID="LoginStatus1" runat="server"
+          OnLoggingOut="LoginStatus1_LoggingOut"
+          LogoutAction="Redirect" LogoutPageUrl="~/" />
+      </div>
+      <asp:ContentPlaceHolder ID="body" runat="server">
+      </asp:ContentPlaceHolder>
+      <asp:ValidationSummary ID="ValidationSummary" runat="server" />
+    </div>
+  </form>
+</body>
+</html>

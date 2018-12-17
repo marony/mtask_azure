@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("Logoff", "Auth", FormMethod.Post, new { Id = "logoffForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink("こんにちは、" + User.Identity.GetUserName() + "さん", "Index", "Home", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li><a href="javascript:document.getElementById('logoffForm').submit()">ログオフ</a></li>
+    </ul>
+    }
+}
+else
+{
+<ul class="nav navbar-nav navbar-right">
+    <li>@Html.ActionLink("登録", "Register", "Auth", routeValues: null, htmlAttributes: new {id = "registerLink"})</li>
+    <li>@Html.ActionLink("ログイン", "Logon", "Auth", routeValues: null, htmlAttributes: new { id = "logonLink" })</li>
+</ul>
+}

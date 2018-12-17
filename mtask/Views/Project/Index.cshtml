@@ -1,0 +1,38 @@
+﻿@using mtask.Models.ViewModel
+@model ProjectIndexViewModel
+@{
+    ViewBag.Title = "プロジェクト一覧";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>説明</th>
+                <th>ポイント</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var project in @Model.Projects)
+            {
+                <tr>
+                    <td>@Html.ActionLink(project.Id, "Show", new { returnUrl = Request.RawUrl, id = project.Id })</td>
+                    <td>@project.Description</td>
+                    <td>@project.Point.Item1 / @project.Point.Item2</td>
+                    <td>@Html.ActionLink("編集", "Edit", new { returnUrl = Request.RawUrl, id = project.Id }, new { @class = "btn btn-default" })</td>
+                    <td>@Html.ActionLink("削除", "Delete", new { returnUrl = Request.RawUrl, id = project.Id }, new { @class = "btn btn-default" })</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        @Html.ActionLink("プロジェクトの追加", "Add", new { returnUrl = Request.RawUrl }, new { @class = "btn btn-default" })
+    </div>
+</div>

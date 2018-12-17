@@ -1,0 +1,59 @@
+﻿@using mtask.Models.ViewModel
+@model ProjectIndexViewModel
+@{
+    ViewBag.Title = "ストーリー一覧";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+        @foreach (var project in @Model.Projects)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">@project.Id - @project.Description</div>
+                <div class="panel-body">
+                    <div class="col-md-8">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>説明</th>
+                                    <th>ポイント</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var story in project.ProductBackLog)
+                                {
+                                    <tr>
+                                        <td>@Html.ActionLink(story.Id, "Show", new { returnUrl = Request.RawUrl, projectId = project.Id, id = story.Id })</td>
+                                        <td>@story.Description</td>
+                                        <td>@story.Point.Item1 / @story.Point.Item2</td>
+                                        <td>@Html.ActionLink("編集", "Edit", new { returnUrl = Request.RawUrl, projectId = project.Id, id = story.Id }, new { @class = "btn btn-default" })</td>
+                                        <td>@Html.ActionLink("削除", "Delete", new { returnUrl = Request.RawUrl, projectId = project.Id, id = story.Id }, new { @class = "btn btn-default" })</td>
+                                    </tr>
+                                }
+                                @foreach (var sprint in project.Sprints)
+                                {
+                                     foreach (var story in sprint.Stories)
+                                     {
+                                         <tr>
+                                             <td>@Html.ActionLink(story.Id, "Show", new {returnUrl = Request.RawUrl, projectId = project.Id, sprintId = sprint.Id, id = story.Id})</td>
+                                             <td>@story.Description</td>
+                                             <td>@story.Point.Item1 / @story.Point.Item2</td>
+                                             <td>@Html.ActionLink("編集", "Edit", new {returnUrl = Request.RawUrl, projectId = project.Id, sprintId = sprint.Id, id = story.Id}, new {@class = "btn btn-default"})</td>
+                                             <td>@Html.ActionLink("削除", "Delete", new {returnUrl = Request.RawUrl, projectId = project.Id, sprintId = sprint.Id, id = story.Id}, new {@class = "btn btn-default"})</td>
+                                         </tr>
+                                     }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.ActionLink("ストーリーの追加", "Add", new { returnUrl = Request.RawUrl, projectId = project.Id }, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+</div>

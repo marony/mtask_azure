@@ -1,0 +1,48 @@
+﻿@using mtask.Models.ViewModel
+@model ProjectIndexViewModel
+@{
+    ViewBag.Title = "スプリント一覧";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>@ViewBag.Title</h2>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var project in @Model.Projects)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">@project.Id - @project.Description</div>
+            <div class="panel-body">
+                <div class="col-md-8">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>説明</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var sprint in project.Sprints)
+                    {
+                                <tr>
+                                    <td>@Html.ActionLink(sprint.Id, "Show", new { returnUrl = Request.RawUrl, projectId = project.Id, id = sprint.Id })</td>
+                                    <td>@sprint.Description</td>
+                                    <td>@Html.ActionLink("編集", "Edit", new { returnUrl = Request.RawUrl, projectId = project.Id, id = sprint.Id }, new { @class = "btn btn-default" })</td>
+                                    <td>@Html.ActionLink("削除", "Delete", new { returnUrl = Request.RawUrl, projectId = project.Id, id = sprint.Id }, new { @class = "btn btn-default" })</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    @Html.ActionLink("スプリントの追加", "Add", new { returnUrl = Request.RawUrl, projectId = project.Id }, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

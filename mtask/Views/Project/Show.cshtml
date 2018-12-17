@@ -1,0 +1,86 @@
+﻿@using mtask.Models.DomainModel
+@model Project
+@{
+    ViewBag.Title = "プロジェクト " + Model.Id;
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="col-md-8">
+        <h2>@Model.Description</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>スプリント</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>説明</th>
+                <th>ポイント</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var sprint in @Model.Sprints)
+            {
+                <tr>
+                    <td>@Html.ActionLink(sprint.Id, "Show", "Sprint", new { returnUrl = Request.RawUrl, projectId = Model.Id, id = sprint.Id }, null)</td>
+                    <td>@sprint.Description</td>
+                    <td>@sprint.Point.Item1 / @sprint.Point.Item2</td>
+                    <td>@Html.ActionLink("編集", "Edit", "Sprint", new { returnUrl = Request.RawUrl, projectId = Model.Id, id = sprint.Id }, new { @class = "btn btn-default" })</td>
+                    <td>@Html.ActionLink("削除", "Delete", "Sprint", new { returnUrl = Request.RawUrl, projectId = Model.Id, id = sprint.Id }, new { @class = "btn btn-default" })</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        @Html.ActionLink("スプリントの追加", "Add", "Sprint", new { returnUrl = Request.RawUrl, projectId = Model.Id }, new { @class = "btn btn-default" })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>プロダクトバックログ</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>説明</th>
+                    <th>ポイント</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var story in @Model.ProductBackLog)
+            {
+                    <tr>
+                        <td>@Html.ActionLink(story.Id, "Show", "Story", new { returnUrl = Request.RawUrl, projectId = Model.Id, id = story.Id }, null)</td>
+                        <td>@story.Description</td>
+                        <td>@story.Point.Item1 / @story.Point.Item2</td>
+                        <td>@Html.ActionLink("編集", "Edit", "Story", new { returnUrl = Request.RawUrl, projectId = Model.Id, id = story.Id }, new { @class = "btn btn-default" })</td>
+                        <td>@Html.ActionLink("削除", "Delete", "Story", new { returnUrl = Request.RawUrl, projectId = Model.Id, id = story.Id }, new { @class = "btn btn-default" })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        @Html.ActionLink("ストーリーの追加", "Add", "Story", new { returnUrl = Request.RawUrl, projectId = Model.Id }, new { @class = "btn btn-default" })
+    </div>
+</div>

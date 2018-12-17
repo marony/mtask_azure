@@ -1,0 +1,28 @@
+﻿@model mtask.Models.ViewModel.ExternalLogonListViewModel
+@using Microsoft.Owin.Security
+
+<h4>別のサービスを使用してログインしてください。</h4>
+<hr />
+@{
+    var LogonProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+    if (LogonProviders.Count() == 0) {
+        <div>
+            <p>
+                構成済みの外部認証サービスはありません。外部サービス経由のログインをサポートするようにこの ASP.NET アプリケーションを設定する方法の
+                詳細については、<a href="http://go.microsoft.com/fwlink/?LinkId=403804">こちらの記事</a>をご覧ください。
+            </p>
+        </div>
+    }
+    else {
+        using (Html.BeginForm("ExternalLogon", "Auth", new { ReturnUrl = Model.ReturnUrl })) {
+            @Html.AntiForgeryToken()
+            <div id="socialLogonList">
+                <p>
+                    @foreach (AuthenticationDescription p in LogonProviders) {
+                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@p.Caption アカウントを使用してログイン">@p.AuthenticationType</button>
+                    }
+                </p>
+            </div>
+        }
+    }
+}

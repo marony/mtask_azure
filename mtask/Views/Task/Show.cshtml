@@ -1,0 +1,46 @@
+﻿@using mtask.Models.ViewModel
+@model TaskShowViewModel
+@{
+    ViewBag.Title = "タスク " + Model.Task.Description;
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="col-md-8">
+        <h2>@Model.Task.Description</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>ストーリー</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>説明</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var story in @Model.Sprint.Stories)
+            {
+                <tr>
+                    <td>@Html.ActionLink(story.Id, "Show", "Story", new { returnUrl = Request.RawUrl, sprintId = Model.Sprint.Id, id = story.Id }, null)</td>
+                    <td>@story.Description</td>
+                    <td>@Html.ActionLink("除外", "RemoveStory", "Sprint", new { returnUrl = Request.RawUrl, sprintId = Model.Sprint.Id, id = story.Id }, new { @class = "btn btn-default" })</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        @Html.ActionLink("ストーリーの追加", "AddStory", "Sprint", new { returnUrl = Request.RawUrl, id = Model.Sprint.Id }, new { @class = "btn btn-default" })
+    </div>
+</div>

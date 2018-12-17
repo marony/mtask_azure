@@ -1,0 +1,42 @@
+﻿@using mtask.Models.ViewModel
+@model StoryShowViewModel
+@{
+    ViewBag.Title = Model.Story.Description;
+}
+
+<h2>@ViewBag.Title</h2>
+<h3>@Model.Story.Description</h3>
+
+<div class="row">
+    <div class="col-md-8">
+        <p>ストーリー</p>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>説明</th>
+                    <th>状態</th>
+                    <th>ポイント</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in @Model.Story.Tasks)
+            {
+                    <tr>
+                        <td>@Html.ActionLink(task.Id, "Show", "Task", null, new { returnUrl = Request.RawUrl, projectId = Model.Project.Id, id = task.Id })</td>
+                        <td>@task.Description</td>
+                        <td>@task.Status</td>
+                        <td>@task.Point</td>
+                        <td>@Html.ActionLink("編集", "Edit", "Task", new { returnUrl = Request.RawUrl, projectId = Model.Project.Id, storyId = Model.Story.Id, id = task.Id }, new { @class = "btn btn-default" })</td>
+                        <td>@Html.ActionLink("削除", "Delete", "Task", new { returnUrl = Request.RawUrl, projectId = Model.Project.Id, storyId = Model.Story.Id, id = task.Id }, new { @class = "btn btn-default" })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        @Html.ActionLink("タスクの追加", "Add", "Task", new { returnUrl = Request.RawUrl, projectId = Model.Project.Id, storyId = Model.Story.Id }, new { @class = "btn btn-default" })
+    </div>
+</div>
